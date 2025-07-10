@@ -1,0 +1,37 @@
+### 사용자 회원가입 테스트
+POST http://127.0.0.1:8000/api/v1/users/register/
+Content-Type: application/json
+
+{
+    "username": "testuser_new",
+    "email": "new_test@example.com",
+    "password": "somepassword123"
+}
+
+### 사용자 로그인 테스트
+POST http://127.0.0.1:8000/api/v1/users/login/
+Content-Type: application/json
+{
+    "username": "testuser_new",
+    "password": "somepassword123"
+}
+
+### 내 정보 보기 테스트 (인증 성공)
+GET http://127.0.0.1:8000/api/v1/users/me/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyMTM2MDMyLCJpYXQiOjE3NTIxMzU3MzIsImp0aSI6ImI0NTljNzM2MDliNDQyOGE4NmJkYmRjYzllNDg4OWQyIiwidXNlcl9pZCI6MX0.sUDm6iAsPGUFJvBhw1og9zfSsi8mSxNN9jtTG8nZ4r0
+
+
+### 내 정보 보기 테스트 (인증 실패)
+GET http://127.0.0.1:8000/api/v1/users/me/
+### 강사 목록 조회 테스트
+GET http://127.0.0.1:8000/api/v1/instructors/
+
+### 비밀번호 변경 테스트
+PUT http://127.0.0.1:8000/api/v1/users/password/change/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyMTMwMzMxLCJpYXQiOjE3NTIxMzAwMzEsImp0aSI6IjczOGE4YmZjY2FmOTRlN2M5Mjg3YmVhYzg3OTU5MmQwIiwidXNlcl9pZCI6MX0.Qi3-4qTjpmhNKIutGxZ79pNf3kiod9vh-mGH9j157bk
+
+{
+    "old_password": "somepassword123",
+    "new_password": "new_strong_password456"
+}
