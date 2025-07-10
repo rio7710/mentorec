@@ -19,7 +19,7 @@ Content-Type: application/json
 
 ### 내 정보 보기 테스트 (인증 성공)
 GET http://127.0.0.1:8000/api/v1/users/me/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyMTM2NjYzLCJpYXQiOjE3NTIxMzYzNjMsImp0aSI6IjQyMGVlYjIzNzI5ZjQ1ZTQ5YjQ2ZWQwN2E2Y2M5ODY4IiwidXNlcl9pZCI6MX0.1S38GePSc0VJ6sf6yue5u1OjOhP5uA3tw-_lAIz0XK4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyMTYxNTkzLCJpYXQiOjE3NTIxNjEyOTMsImp0aSI6IjE5OWM4ZjJkYzNkMzQ1YmU4MzMzYjYyNmM2MGEyYTQ5IiwidXNlcl9pZCI6MX0.bFbaPcz24bsbrrc0f_Y3jFOZBqCAd0KHn6AQf9LYgcE
 
 
 ### 내 정보 보기 테스트 (인증 실패)
@@ -38,3 +38,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
     "old_password": "somepassword123",
     "new_password": "new_strong_password456"
 }
+
+### 내 정보 수정 테스트 (이름 변경)
+PATCH http://127.0.0.1:8000/api/v1/users/me/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyMTYxNTkzLCJpYXQiOjE3NTIxNjEyOTMsImp0aSI6IjE5OWM4ZjJkYzNkMzQ1YmU4MzMzYjYyNmM2MGEyYTQ5IiwidXNlcl9pZCI6MX0.bFbaPcz24bsbrrc0f_Y3jFOZBqCAd0KHn6AQf9LYgcE
+
+{
+    "first_name": "길동",
+    "last_name": "홍"
+}
+
+### 회원 탈퇴 테스트
+DELETE http://127.0.0.1:8000/api/v1/users/deactivate/
+Content-Type: application/json
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyMTYxOTIzLCJpYXQiOjE3NTIxNjE2MjMsImp0aSI6IjMxOGYwNmM4OWFiNjQ0YTA5OWUxZjM1Zjg5ZDI5YWU1IiwidXNlcl9pZCI6MX0.0011qxiZWB7Ycs-UpzE_NRhTiXP5FKoM7CRXAxa8IDM

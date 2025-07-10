@@ -1,5 +1,6 @@
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group
 from django.urls import path, reverse
 from django.utils.html import format_html
 from django.shortcuts import render, redirect
@@ -9,7 +10,7 @@ import io
 import openpyxl
 from .models import User, Affiliation
 from .forms import FileUploadForm
-from instructors.models import InstructorProfile # 강사 프로필 생성을 위해 import
+from instructors.models import InstructorProfile
 
 @admin.register(Affiliation)
 class AffiliationAdmin(admin.ModelAdmin):
@@ -25,14 +26,23 @@ class CustomUserAdmin(UserAdmin):
         ("추가 정보", {"fields": ("role", "instructor_profile_link", "affiliations")}),
         (
             "권한",
-            {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")},
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                ),
+                "classes": ("collapse",),
+            },
         ),
         ("주요 날짜", {"fields": ("last_login", "date_joined")}),
     )
     # 사용자 목록 화면에 보여질 필드
-    list_display = ('username', 'email', 'is_staff', 'role')
+    list_display = ('username', 'email', 'is_staff', 'role', 'display_groups')
     # 읽기 전용 필드
-    readonly_fields = ('instructor_profile_link',)
+    readonly_fields = ('instructor_profile_link', 'last_login', 'date_joined')
     # 다대다 관계 필드를 위한 위젯
     filter_horizontal = ('affiliations', 'groups', 'user_permissions')
     # 사용자 목록 페이지에 커스텀 버튼을 추가하기 위한 템플릿
@@ -130,6 +140,21 @@ class CustomUserAdmin(UserAdmin):
         )
         return render(request, 'admin/users/bulk_upload.html', context)
     
+    def display_groups(self, obj):
+        """사용자 목록에 그룹 표시"""
+        return ", ".join([group.name for group in obj.groups.all()])
+    display_groups.short_description = '소속 그룹'
+
+    def save_model(self, request, obj, form, change):
+        """신규 사용자 저장 시 기본 그룹 할당"""
+        super().save_model(request, obj, form, change)
+        if not change:
+            try:
+                default_group = Group.objects.get(name='일반 사용자')
+                obj.groups.add(default_group)
+            except Group.DoesNotExist:
+                pass
+
     def instructor_profile_link(self, obj):
         """강사 프로필 바로가기 링크 생성 함수"""
         if obj.role == User.Role.INSTRUCTOR:

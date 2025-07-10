@@ -1,0 +1,12 @@
+{% extends "admin/change_form.html" %}
+
+{# '히스토리' 버튼이 있는 영역에 그룹 정보를 추가합니다 #}
+{% block object-tools-items %}
+  {% if original and original.groups.exists %}
+    <li style="margin-left: 10px; padding-top: 5px; color: #ccc;">
+      <strong>소속 그룹:</strong>
+      {{ original.groups.all|join:", " }}
+    </li>
+  {% endif %}
+  {{ block.super }}
+{% endblock %}
