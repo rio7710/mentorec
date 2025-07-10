@@ -1,0 +1,11 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+
+{% block object-tools-items %}
+  <li>
+    <a href="{% url 'admin:users_user_bulk_upload' %}" class="addlink">
+      {% trans '엑셀로 일괄 등록' %}
+    </a>
+  </li>
+  {{ block.super }}
+{% endblock %}

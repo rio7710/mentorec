@@ -19,6 +19,9 @@ class InstructorProfile(models.Model):
         primary_key=True,
         verbose_name="사용자"
     )
+    # --- 프로필 이미지 필드 추가 ---
+    profile_image = models.ImageField(upload_to='instructor_profiles/', null=True, blank=True, verbose_name="프로필 사진")
+    # --- 강사 소개 필드 추가 ---
     bio = models.TextField(blank=True, verbose_name="강사 소개")
     expertise = models.ManyToManyField(Expertise, blank=True, verbose_name="전문 분야")
     years_of_experience = models.PositiveIntegerField(default=0, verbose_name="경력 (년수)")
